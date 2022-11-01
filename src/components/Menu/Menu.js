@@ -14,7 +14,6 @@ function Menu() {
 
   const [history, setHistory] = useState([{ data: menuItems }]);
   const currentListItems = history[history.length - 1];
-  console.log("currentListItems", currentListItems);
 
   const renderItem = () => {
     return currentListItems.data.map((item, index) => {

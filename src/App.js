@@ -6,12 +6,15 @@ import "./App.scss";
 import Button from "./components/Button/Button";
 import Wrapper from "./components/Wrapper/Wrapper.js";
 import Menu from "./components/Menu/Menu";
+import Modal from "./components/Modal/Modal";
 
 function App() {
   const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const hide = () => {
     setShow(false);
   };
+
   return (
     <div className="App">
       <Tippy
@@ -36,6 +39,8 @@ function App() {
           </Button>
         </div>
       </Tippy>
+      <Button onClick={() => setShowModal(true)}>Open Modal</Button>
+      {showModal && <Modal setOpenModal={setShowModal} />}
     </div>
   );
 }
