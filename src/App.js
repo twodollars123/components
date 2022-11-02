@@ -7,6 +7,7 @@ import Button from "./components/Button/Button";
 import Wrapper from "./components/Wrapper/Wrapper.js";
 import Menu from "./components/Menu/Menu";
 import Modal from "./components/Modal/Modal";
+import FilterCategoty from "./components/FilterCategory/FilterCategory";
 
 function App() {
   const [show, setShow] = useState(false);
@@ -41,6 +42,8 @@ function App() {
       </Tippy>
       <Button onClick={() => setShowModal(true)}>Open Modal</Button>
       {showModal && <Modal setOpenModal={setShowModal} />}
+
+      <FilterCategoty />
     </div>
   );
 }

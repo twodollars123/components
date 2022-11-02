@@ -1,10 +1,21 @@
+import Select from "react-select";
+import { useState } from "react";
 import classNames from "classnames/bind";
-import Button from "../Button/Button";
+
 import styles from "./Modal.module.scss";
+import Button from "../Button/Button";
+import { useStore } from "../../store";
 
 const cx = classNames.bind(styles);
 
 function Modal({ setOpenModal }) {
+  const [state] = useStore();
+  const [selectedOptions, setSelectedOptions] = useState();
+  const { selectedColorOptions } = state;
+
+  function handleSelect(data) {
+    setSelectedOptions(data);
+  }
   return (
     <div className={cx("modal__wrapper")}>
       <div className={cx("modal")}>
@@ -15,7 +26,14 @@ function Modal({ setOpenModal }) {
           </span>
         </div>
         <div className={cx("content_modal")}>
-          <p>abc</p>
+          <Select
+            options={selectedColorOptions}
+            placeholder="Select color"
+            value={selectedOptions}
+            onChange={handleSelect}
+            isSearchable={true}
+            isMulti
+          />
         </div>
         <div className={cx("action_modal")}>
           <Button primary>Confirm</Button>
