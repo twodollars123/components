@@ -1,8 +1,11 @@
 import classNames from "classnames/bind";
-import styles from "./FilterCategory.module.scss";
-import { useStore } from "../../store";
-import CardProduct from "../CardProduct/CardProduct";
 import { useEffect, useState } from "react";
+
+import { useStore } from "../../store";
+import styles from "./FilterCategory.module.scss";
+import CardProduct from "../CardProduct/CardProduct";
+import CheckboxInput from "./Checkbox";
+import * as MenuApi from "../../ApiServices/MenuApi";
 
 const cx = classNames.bind(styles);
 
@@ -10,56 +13,42 @@ function FilterCategoty() {
   const [state] = useStore();
   const { listProduct } = state;
   const [filterList, setFilterList] = useState(listProduct);
-  const [selectedBrand, setSelectedBrand] = useState("All");
-  console.log(filterList);
-
-  const handleChecked = (e) => {
-    if (!e.target.checked) {
-      setSelectedBrand("");
-    } else {
-      setSelectedBrand(e.target.value);
-    }
-    if (selectedBrand) {
-      setFilterList(filterList.filter((item) => item.brand === selectedBrand));
-    }
-  };
+  const [selectedBrand, setSelectedBrand] = useState([]);
+  const brand = ["Honda", "Kawasaki", "BMW"];
 
   useEffect(() => {
-    if (selectedBrand === "All") {
-      setFilterList(listProduct);
-    } else if (selectedBrand === "") {
-      setFilterList("");
-    } else {
-      let newlist = listProduct.filter((item) => item.brand === selectedBrand);
-      setFilterList(newlist);
-    }
+    console.log("selectedBrand", selectedBrand);
   }, [selectedBrand]);
-  console.log(selectedBrand);
+
+  useEffect(() => {
+    const fetchApi = async () => {
+      const result = await MenuApi.menu();
+      console.log("a", result);
+    };
+    fetchApi();
+  }, []);
+
   return (
     <div className={cx("wrapper")}>
       <div className={cx("filter_box")}>
         <h3>Filter by brand</h3>
         <div className={cx("selected")}>
-          <div className={cx("checkbox_item")}>
-            <label> All</label>
-            <input type="checkbox" value="All" onChange={handleChecked} />
-          </div>
-          <div className={cx("checkbox_item")}>
-            <label> BMW</label>
-            <input type="checkbox" value="BMW" onChange={handleChecked} />
-          </div>
-          <div className={cx("checkbox_item")}>
-            <label> Honda</label>
-            <input type="checkbox" value="Honda" onChange={handleChecked} />
-          </div>
-          <div className={cx("checkbox_item")}>
-            <label> Kawasaki</label>
-            <input type="checkbox" value="Kawasaki" onChange={handleChecked} />
-          </div>
-          <div className={cx("checkbox_item")}>
-            <label> YAMAHA</label>
-            <input type="checkbox" value="YAMAHA" onChange={handleChecked} />
-          </div>
+          <CheckboxInput
+            data={selectedBrand}
+            setData={setSelectedBrand}
+            value={"All"}
+            brands={brand}
+          />
+          {brand.map((item, index) => {
+            return (
+              <CheckboxInput
+                data={selectedBrand}
+                setData={setSelectedBrand}
+                value={item}
+                key={index}
+              />
+            );
+          })}
         </div>
       </div>
       <div className={cx("list_product")}>

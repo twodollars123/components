@@ -5,9 +5,9 @@
     border: 1px dashed #999;
     padding: 10px;
     .selected {
-      flex-wrap: wrap;
-      gap: 30px;
       display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
       .checkbox_item {
         width: 40%;
         display: flex;
